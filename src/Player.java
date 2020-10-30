@@ -3,10 +3,11 @@ import java.awt.*;
 
 public class Player {
 
-    private int hitPoints;
-    public Player(){
-        this.hitPoints = 10;
+    private static int hitPoints;
 
+    public Player(){
+
+        this.hitPoints = 10;
 
         EventQueue.invokeLater(() -> {
             // board type 1 == opponents board
@@ -18,8 +19,8 @@ public class Player {
     }
 
 
-    public int getHitPoints(){
-        return hitPoints;
+    public static void hit(){
+        hitPoints--;
     }
 
     public void go(){
