@@ -8,6 +8,13 @@ public class Captain {
 
     public static void main(String[] args) {
 
-        one = new Player();
+        EventQueue.invokeLater(new Runnable(){
+            @Override
+            public void run() {
+                one = new Player();
+            }
+        });
+
+
     }
 }

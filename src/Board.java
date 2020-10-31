@@ -6,18 +6,19 @@ import java.util.Random;
 import javax.swing.*;
 import javax.swing.border.Border;
 
-public class Board extends JFrame{
+public class Board extends JFrame {
 
     public String[][] yourBoard;               // int array for the board
     public String[][] opponentBoard;               // int array for the board
     public final int bgLength = 7;    // 7x7 board is big enough. Useful to have this parameter.
     private JFrame main;
+    private JMenuItem quit, help;
     private JPanel yourShips;
     private JPanel opponentShips;
 
 
     // Board constructor
-    public Board(int boardType){
+    public Board(){
         yourBoard = new String[bgLength][bgLength];
         opponentBoard = new String[bgLength][bgLength];
 
@@ -51,6 +52,31 @@ public class Board extends JFrame{
                 System.exit(0);
             }
         });
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menu = new JMenu("Menu");
+        quit = new JMenuItem("Quit");
+        help = new JMenuItem("Help");
+        quit.addActionListener(e -> {
+            if(e.getSource() == quit){
+                int result = JOptionPane.showConfirmDialog((Component) e.getSource(),
+                        "Close this application?");
+                if (result == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                } else if (result == JOptionPane.NO_OPTION) {
+                    System.out.println("Do nothing");
+                }
+            }
+        });
+
+        help.addActionListener(e -> {
+            if(e.getSource() == help)
+                JOptionPane.showMessageDialog(main,"Welcome");
+        });
+
+        menu.add(quit);
+        menu.add(help);
+        menuBar.add(menu);
+        main.setJMenuBar(menuBar);
         main.setVisible(true);
     }
 
@@ -65,12 +91,13 @@ public class Board extends JFrame{
         //your ships
         for (String[] strings : yourBoard) {
             for (String string : strings) {
-                JButton button;
-                button = new JButton(string);
+                JButton button = new JButton(string);
                 button.setBorder(BorderFactory.createLineBorder(Color.black));
                 button.setBackground(Color.WHITE);
                 button.setFont(new Font("Verdana", Font.PLAIN, 20));
                 button.setEnabled(false);
+                button.setFocusPainted(false);
+                button.addActionListener(actionEvent -> {});
                 yourShips.add(button);
             }
         }
@@ -82,15 +109,17 @@ public class Board extends JFrame{
                 button.setFont(new Font("Verdana", Font.PLAIN, 20));
                 button.setBackground(Color.WHITE);
                 button.setForeground(Color.WHITE);
+                
                 button.addActionListener(actionEvent -> {
                     if(button.getText().equals("*")) {
                         button.setBackground(Color.RED);
-                        JOptionPane.showMessageDialog(yourShips, "Hit!");
+                        JOptionPane.showMessageDialog(main, "Hit!");
                     }
                     else if(button.getText().equals("-")){
                         button.setBackground(Color.GREEN);
                     }
                 });
+                button.setFocusPainted(false);
                 opponentShips.add(button);
             }
         }
@@ -108,6 +137,8 @@ public class Board extends JFrame{
         main.add(yourShips);
         main.add(opponentShips);
     }
+
+
 
 
     // add a ship
